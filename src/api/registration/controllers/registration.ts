@@ -1,13 +1,43 @@
+'use strict'
 /**
  * A set of functions called "actions" for `registration`
  */
+const crypto = require('crypto');
+const _ = require('lodash');
+const { concat, compact, isArray } = require('lodash/fp');
+const utils = require('@strapi/utils');
+const {
+  contentTypes: { getNonWritableAttributes },
+} = require('@strapi/utils');
+const getService = (name) => {
+  return strapi.plugin('users-permissions').service(name);
+};
+const {
+  validateCallbackBody,
+  validateRegisterBody,
+  validateSendEmailConfirmationBody,
+  validateForgotPasswordBody,
+  validateResetPasswordBody,
+  validateEmailConfirmationBody,
+  validateChangePasswordBody,
+} = require('@strapi/plugin-users-permissions/server/utils/index.d.ts');
+
+const { getAbsoluteAdminUrl, getAbsoluteServerUrl, sanitize } = utils;
+const { ApplicationError, ValidationError, ForbiddenError } = utils.errors;
+
+const sanitizeUser = (user, ctx) => {
+  const { auth } = ctx.state;
+  const userSchema = strapi.getModel('plugin::users-permissions.user');
+
+  return sanitize.contentAPI.output(user, userSchema, { auth });
+};
 
 export default {
-  // exampleAction: async (ctx, next) => {
-  //   try {
-  //     ctx.body = 'ok';
-  //   } catch (err) {
-  //     ctx.body = err;
-  //   }
-  // }
+  registration: async (ctx, next) => {
+    try {
+      ctx.body = 'ok';
+    } catch (err) {
+      ctx.body = err;
+    }
+  }
 };

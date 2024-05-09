@@ -1,13 +1,13 @@
 export default {
   routes: [
-    // {
-    //  method: 'GET',
-    //  path: '/registration',
-    //  handler: 'registration.exampleAction',
-    //  config: {
-    //    policies: [],
-    //    middlewares: [],
-    //  },
-    // },
+    {
+     method: 'GET',
+     path: '/registration',
+     handler: 'registration.registration',
+     config: {
+       policies: [],
+       middlewares: [],
+     },
+    },
   ],
 };
