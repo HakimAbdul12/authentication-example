@@ -12,15 +12,7 @@ const {
 const getService = (name) => {
   return strapi.plugin('users-permissions').service(name);
 };
-const {
-  validateCallbackBody,
-  validateRegisterBody,
-  validateSendEmailConfirmationBody,
-  validateForgotPasswordBody,
-  validateResetPasswordBody,
-  validateEmailConfirmationBody,
-  validateChangePasswordBody,
-} = require('@strapi/plugin-users-permissions/server/utils/index.d.ts');
+const {ValidateRegisterBody} = require('../validate/auth');
 
 const { getAbsoluteAdminUrl, getAbsoluteServerUrl, sanitize } = utils;
 const { ApplicationError, ValidationError, ForbiddenError } = utils.errors;
@@ -35,7 +27,7 @@ const sanitizeUser = (user, ctx) => {
 export default {
   registration: async (ctx, next) => {
     try {
-      ctx.body = 'ok';
+      ctx.body = 'ok and more';
     } catch (err) {
       ctx.body = err;
     }
