@@ -1,7 +1,7 @@
 export default {
   routes: [
     {
-     method: 'GET',
+     method: 'POST',
      path: '/registration',
      handler: 'registration.registration',
      config: {
