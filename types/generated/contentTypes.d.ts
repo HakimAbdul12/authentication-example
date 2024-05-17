@@ -788,6 +788,38 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiCategoryCategory extends Schema.CollectionType {
+  collectionName: 'categories';
+  info: {
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'Category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.Text & Attribute.Required & Attribute.Unique;
+    description: Attribute.Text & Attribute.Required;
+    slug: Attribute.Text & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiOrderOrder extends Schema.CollectionType {
   collectionName: 'orders';
   info: {
@@ -825,14 +857,35 @@ export interface ApiPostPost extends Schema.CollectionType {
     singularName: 'post';
     pluralName: 'posts';
     displayName: 'post';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String;
-    body: Attribute.Blocks;
-    summary: Attribute.Blocks;
+    title: Attribute.Text & Attribute.Required;
+    body: Attribute.Blocks & Attribute.Required;
+    excerpt: Attribute.Blocks;
+    user: Attribute.Relation<
+      'api::post.post',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    category: Attribute.Relation<
+      'api::post.post',
+      'oneToOne',
+      'api::category.category'
+    >;
+    tags: Attribute.JSON;
+    seo_title: Attribute.Text & Attribute.Required;
+    meta_description: Attribute.Text;
+    slug: Attribute.Text & Attribute.Required & Attribute.Unique;
+    featured_image: Attribute.Media;
+    call_to_action: Attribute.Text;
+    related_links: Attribute.JSON;
+    post_status: Attribute.Enumeration<['DRAFT', 'PENDING', 'PUBLISHED']> &
+      Attribute.Required &
+      Attribute.DefaultTo<'DRAFT'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -861,6 +914,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::category.category': ApiCategoryCategory;
       'api::order.order': ApiOrderOrder;
       'api::post.post': ApiPostPost;
     }

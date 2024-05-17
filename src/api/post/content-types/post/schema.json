@@ -4,7 +4,8 @@
   "info": {
     "singularName": "post",
     "pluralName": "posts",
-    "displayName": "post"
+    "displayName": "post",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,13 +13,67 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "text",
+      "required": true
     },
     "body": {
+      "type": "blocks",
+      "required": true
+    },
+    "excerpt": {
       "type": "blocks"
     },
-    "summary": {
-      "type": "blocks"
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
+    },
+    "tags": {
+      "type": "json"
+    },
+    "seo_title": {
+      "type": "text",
+      "required": true
+    },
+    "meta_description": {
+      "type": "text"
+    },
+    "slug": {
+      "type": "text",
+      "required": true,
+      "unique": true
+    },
+    "featured_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "call_to_action": {
+      "type": "text"
+    },
+    "related_links": {
+      "type": "json"
+    },
+    "post_status": {
+      "type": "enumeration",
+      "enum": [
+        "DRAFT",
+        "PENDING",
+        "PUBLISHED"
+      ],
+      "default": "DRAFT",
+      "required": true
     }
   }
 }
